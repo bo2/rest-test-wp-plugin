@@ -1,7 +1,7 @@
 <?php
 /**
  * Plugin Name: Simple REST API Tester
- * Plugin URI:
+ * Plugin URI: https://github.com/bo2/rest-test-wp-plugin
  * Description: Allows to send REST requests and see response
  * Version: 0.1
  * Author: bo2
