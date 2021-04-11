@@ -114,6 +114,7 @@ class RestTestPlugin {
 				XHR.setRequestHeader( 'Content-Type', 'application/json' );
 				XHR.setRequestHeader( 'X-WP-Nonce', '<?php echo esc_attr( wp_create_nonce( 'wp_rest' ) ); ?>' );
 				XHR.send( document.getElementById('rt-body').value );
+				document.getElementById( 'rt-response' ).innerHTML = '<img src="https://upload.wikimedia.org/wikipedia/commons/d/de/Ajax-loader.gif" />';
 			}
 			button = document.getElementById('rt-button')
 			button.addEventListener( 'click', function() {
