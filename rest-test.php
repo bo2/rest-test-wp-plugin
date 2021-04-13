@@ -1,7 +1,7 @@
 <?php
 /**
  * Plugin Name: Simple REST API Tester
- * Plugin URI: https://github.com/bo2/rest-test-wp-plugin
+ * Plugin URI:
  * Description: Allows to send REST requests and see response
  * Version: 0.1
  * Author: bo2
@@ -50,6 +50,14 @@ class RestTestPlugin {
 			.boolean { color: blue; }
 			.null { color: magenta; }
 			.key { color: red; }
+
+			td { text-align: left !important; }
+			#rt-url, #rt-body {
+				width: 500px;
+			}
+			#rt-body {
+				height: 200px;
+			}
 		</style>
 		<div class="wrap">
 			<h1>Simple REST API Tester</h1>
@@ -66,15 +74,21 @@ class RestTestPlugin {
 					</tr>
 					<tr>
 						<td>URL:</td>
-						<td><input id="rt-url" name="url" style="width: 400px;" value="<?php echo esc_attr( get_rest_url() ); ?>"/></td>
+						<td><input id="rt-url" name="url" value="<?php echo esc_attr( get_rest_url() ); ?>"/></td>
 					</tr>
 					<tr>
 						<td>Body:</td>
-						<td><textarea id="rt-body" style="width: 400px; height: 200px"></textarea></td>
+						<td><textarea id="rt-body"></textarea></td>
 					</tr>
 					<tr>
 						<td></td>
-						<td><button id="rt-button" type="button">Send</button></td>
+						<td>
+							<button id="rt-button" type="button">Send</button>
+							<label>
+								<input id="rt-syntax" type="checkbox" checked>
+								JSON syntax highlighting (may help with large responses)
+							</label>
+						</td>
 					</tr>
 				</table>
 			</form>
@@ -102,9 +116,13 @@ class RestTestPlugin {
 
 			function sendData() {
 				const XHR = new XMLHttpRequest();
-				XHR.addEventListener( 'load', function(event) {
+				XHR.addEventListener( 'load', function( event ) {
 					let j = JSON.parse( XHR.response );
-					document.getElementById( 'rt-response' ).innerHTML = syntaxHighlight( JSON.stringify(j, undefined, 4 ));
+					if ( document.getElementById('rt-syntax').checked ) {
+						document.getElementById('rt-response').innerHTML = syntaxHighlight(JSON.stringify(j, undefined, 4));
+					} else {
+						document.getElementById('rt-response').innerText = JSON.stringify(j, undefined, 4);
+					}
 				} );
 				XHR.addEventListener( 'error', function(event) {
 					alert('API call error');
