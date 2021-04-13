@@ -92,6 +92,7 @@ class RestTestPlugin {
 					</tr>
 				</table>
 			</form>
+			<p id="rt-info"></p>
 			<pre id="rt-response"></pre>
 		</div>
 		<script>
@@ -117,6 +118,11 @@ class RestTestPlugin {
 			function sendData() {
 				const XHR = new XMLHttpRequest();
 				XHR.addEventListener( 'load', function( event ) {
+					let receiveTime = ( new Date() ).getTime();
+					let responseTimeMs = receiveTime - sendTime;
+					document.getElementById( 'rt-info' ).innerHTML =
+						document.getElementById( 'rt-info' ).innerHTML + '<br/>' +
+						'Response time: ' + responseTimeMs + ' ms';
 					let j = JSON.parse( XHR.response );
 					if ( document.getElementById('rt-syntax').checked ) {
 						document.getElementById('rt-response').innerHTML = syntaxHighlight(JSON.stringify(j, undefined, 4));
@@ -131,7 +137,9 @@ class RestTestPlugin {
 				XHR.open( document.getElementById('rt-method').value, document.getElementById('rt-url').value );
 				XHR.setRequestHeader( 'Content-Type', 'application/json' );
 				XHR.setRequestHeader( 'X-WP-Nonce', '<?php echo esc_attr( wp_create_nonce( 'wp_rest' ) ); ?>' );
+				let sendTime = (new Date()).getTime();
 				XHR.send( document.getElementById('rt-body').value );
+				document.getElementById( 'rt-info' ).innerText = document.getElementById('rt-method').value + ' ' + document.getElementById('rt-url').value;
 				document.getElementById( 'rt-response' ).innerHTML = '<img src="https://upload.wikimedia.org/wikipedia/commons/d/de/Ajax-loader.gif" />';
 			}
 			button = document.getElementById('rt-button')
