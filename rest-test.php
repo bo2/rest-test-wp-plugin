@@ -139,7 +139,10 @@ class RestTestPlugin {
 				XHR.setRequestHeader( 'X-WP-Nonce', '<?php echo esc_attr( wp_create_nonce( 'wp_rest' ) ); ?>' );
 				let sendTime = (new Date()).getTime();
 				XHR.send( document.getElementById('rt-body').value );
-				document.getElementById( 'rt-info' ).innerText = document.getElementById('rt-method').value + ' ' + document.getElementById('rt-url').value;
+                let date = new Date();
+				document.getElementById( 'rt-info' ).innerHTML =
+                    date.toISOString() + '<br/>' +
+                    document.getElementById('rt-method').value + ' ' + document.getElementById('rt-url').value;
 				document.getElementById( 'rt-response' ).innerHTML = '<img src="https://upload.wikimedia.org/wikipedia/commons/d/de/Ajax-loader.gif" />';
 			}
 			button = document.getElementById('rt-button')
