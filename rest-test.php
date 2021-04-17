@@ -136,7 +136,8 @@ class RestTestPlugin {
 					alert('API call error');
 				} );
 
-				XHR.open( document.getElementById('rt-method').value, document.getElementById('rt-url').value );
+                let url = document.getElementById('rt-base-url').value + document.getElementById('rt-url').value;
+				XHR.open( document.getElementById('rt-method').value, url );
 				XHR.setRequestHeader( 'Content-Type', 'application/json' );
 				XHR.setRequestHeader( 'X-WP-Nonce', '<?php echo esc_attr( wp_create_nonce( 'wp_rest' ) ); ?>' );
 				let sendTime = (new Date()).getTime();
@@ -144,8 +145,7 @@ class RestTestPlugin {
                 let date = new Date();
 				document.getElementById( 'rt-info' ).innerHTML =
                     date.toISOString() + '<br/>' +
-                    document.getElementById('rt-method').value + ' ' +
-                    document.getElementById('rt-base-url').value + document.getElementById('rt-url').value;
+                    document.getElementById('rt-method').value + ' ' + url;
 				document.getElementById( 'rt-response' ).innerHTML = '<img src="https://upload.wikimedia.org/wikipedia/commons/d/de/Ajax-loader.gif" />';
 			}
 			button = document.getElementById('rt-button')
