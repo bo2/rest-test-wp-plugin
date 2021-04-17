@@ -53,7 +53,7 @@ class RestTestPlugin {
 
 			td { text-align: left !important; }
 			#rt-url, #rt-body {
-				width: 500px;
+				width: 600px;
 			}
 			#rt-body {
 				height: 200px;
@@ -61,7 +61,8 @@ class RestTestPlugin {
 		</style>
 		<div class="wrap">
 			<h1>Simple REST API Tester</h1>
-			<form>
+			<form method="post" action="<?php echo home_url( add_query_arg( $GLOBALS['wp']->query_vars, $GLOBALS['wp']->request ) ); ?>">
+                <input id="rt-base-url" type="hidden" value="<?php echo esc_attr( get_site_url() ); ?>" />
 				<table>
 					<tr>
 						<td>Method:</td>
@@ -70,11 +71,12 @@ class RestTestPlugin {
 								<option>GET</option>
 								<option>POST</option>
 							</select>
+                            Press &lt;enter&gt; to save url in browser autofill history (if enabled).
 						</td>
 					</tr>
 					<tr>
 						<td>URL:</td>
-						<td><input id="rt-url" name="url" value="<?php echo esc_attr( get_rest_url() ); ?>"/></td>
+						<td><input id="rt-url" name="url" value="<?php echo esc_attr( substr(get_rest_url(), strlen( get_site_url() ) ) ); ?>"/></td>
 					</tr>
 					<tr>
 						<td>Body:</td>
@@ -142,7 +144,8 @@ class RestTestPlugin {
                 let date = new Date();
 				document.getElementById( 'rt-info' ).innerHTML =
                     date.toISOString() + '<br/>' +
-                    document.getElementById('rt-method').value + ' ' + document.getElementById('rt-url').value;
+                    document.getElementById('rt-method').value + ' ' +
+                    document.getElementById('rt-base-url').value + document.getElementById('rt-url').value;
 				document.getElementById( 'rt-response' ).innerHTML = '<img src="https://upload.wikimedia.org/wikipedia/commons/d/de/Ajax-loader.gif" />';
 			}
 			button = document.getElementById('rt-button')
